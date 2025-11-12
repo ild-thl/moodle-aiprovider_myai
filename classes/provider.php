@@ -157,13 +157,13 @@ class provider extends \core_ai\provider {
     ): array {
         $actionname = substr($action, (strrpos($action, '\\') + 1));
         $settings = [];
-        if ($actionname === 'generate_text' || $actionname === 'summarise_text' || $actionname === 'extract_pdf') {
+        if ($actionname === 'generate_text' || $actionname === 'summarise_text') {
             // Add the model setting.
             $settings[] = new \admin_setting_configtext(
                 "aiprovider_myai/action_{$actionname}_model",
                 new \lang_string("action:{$actionname}:model", 'aiprovider_myai'),
                 new \lang_string("action:{$actionname}:model_desc", 'aiprovider_myai'),
-                'gpt-4o',
+                'gpt-oss-120b',
                 PARAM_TEXT,
             );
             // Add API endpoint.
@@ -171,7 +171,7 @@ class provider extends \core_ai\provider {
                 "aiprovider_myai/action_{$actionname}_endpoint",
                 new \lang_string("action:{$actionname}:endpoint", 'aiprovider_myai'),
                 '',
-                'https://api.openai.com/v1/chat/completions',
+                'https://models.mylab.th-luebeck.dev/v1/chat/completions',
                 PARAM_URL,
             );
             // Add system instruction settings.
@@ -182,7 +182,34 @@ class provider extends \core_ai\provider {
                 $action::get_system_instruction(),
                 PARAM_TEXT
             );
-        } else if ($actionname === 'generate_image') {
+        }
+        else if ($actionname === 'extract_pdf') {
+            // Add the model setting.
+            $settings[] = new \admin_setting_configtext(
+                "aiprovider_myai/action_{$actionname}_model",
+                new \lang_string("action:{$actionname}:model", 'aiprovider_myai'),
+                new \lang_string("action:{$actionname}:model_desc", 'aiprovider_myai'),
+                'nanonets-ocr2-3b',
+                PARAM_TEXT,
+            );
+            // Add API endpoint.
+            $settings[] = new \admin_setting_configtext(
+                "aiprovider_myai/action_{$actionname}_endpoint",
+                new \lang_string("action:{$actionname}:endpoint", 'aiprovider_myai'),
+                '',
+                'https://models.mylab.th-luebeck.dev/v1/chat/completions',
+                PARAM_URL,
+            );
+            // Add system instruction settings.
+            $settings[] = new \admin_setting_configtextarea(
+                "aiprovider_myai/action_{$actionname}_systeminstruction",
+                new \lang_string("action:{$actionname}:systeminstruction", 'aiprovider_myai'),
+                new \lang_string("action:{$actionname}:systeminstruction_desc", 'aiprovider_myai'),
+                $action::get_system_instruction(),
+                PARAM_TEXT
+            );
+        }
+        else if ($actionname === 'generate_image') {
             // Add the model setting.
             $settings[] = new \admin_setting_configtext(
                 "aiprovider_myai/action_{$actionname}_model",

@@ -47,28 +47,7 @@ class process_extract_pdf extends abstract_processor {
 
     #[\Override]
     protected function create_request_object(string $userid): RequestInterface {
-        //Create the user object.
-        // $userobj = new \stdClass();
-        // $userobj->role = 'user';
-        // $userobj->content = $this->action->get_configuration('prompttext');
-
-        // // Create the request object.
-        // $requestobj = new \stdClass();
-        // //$requestobj->model = $this->get_model();
-        // $requestobj->model = 'nanonets-ocr2-3b';
-        // $requestobj->user = $userid;
-
-        // // If there is a system string available, use it.
-        // $systeminstruction = $this->get_system_instruction();
-        // if (!empty($systeminstruction)) {
-        //     $systemobj = new \stdClass();
-        //     $systemobj->role = 'system';
-        //     $systemobj->content = $systeminstruction;
-        //     $requestobj->messages = [$systemobj, $userobj];
-        // } else {
-        //     $requestobj->messages = [$userobj];
-        // }
-
+        // Python example:
         // response = client.chat.completions.create(
         //     model=model,
         //     messages=[
@@ -119,7 +98,7 @@ class process_extract_pdf extends abstract_processor {
         }
 
         $requestobj = new \stdClass();
-        $requestobj->model = 'nanonets-ocr2-3b';
+        $requestobj->model = $this->get_model();
         $requestobj->user = $userid;
         $requestobj->messages = $messages;
         $requestobj->temperature = 0.0;

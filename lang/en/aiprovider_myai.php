@@ -29,6 +29,7 @@ $string['action:extract_pdf:model_desc'] = 'The model used to extract the conten
 $string['action:extract_pdf:endpoint'] = 'API endpoint';
 $string['action:extract_pdf:systeminstruction'] = 'System instruction';
 $string['action:extract_pdf:systeminstruction_desc'] = 'This instruction is sent to the AI model along with the user\'s prompt. Editing this instruction is not recommended unless absolutely required.';
+$string['action:extract_pdf:systeminstruction_default'] = 'Extract the text from the above document as if you were reading it naturally. Return the tables in html format. Return the equations in LaTeX representation. If there is an image in the document and image caption is not present, add a small description of the image inside the <img></img> tag; otherwise, add the image caption inside <img></img>. Watermarks should be wrapped in brackets. Ex: <watermark>OFFICIAL COPY</watermark>. Page numbers should be wrapped in brackets. Ex: <page_number>14</page_number> or <page_number>9/22</page_number>. Prefer using ☐ and ☑ for check boxes.';
 $string['action:generate_image:endpoint'] = 'API endpoint';
 $string['action:generate_image:model'] = 'AI model';
 $string['action:generate_image:model_desc'] = 'The model used to generate images from user prompts.';

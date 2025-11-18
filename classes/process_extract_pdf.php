@@ -79,23 +79,24 @@ class process_extract_pdf extends abstract_processor {
 
         $text = new \stdClass();
         $text->type = 'text';
-        $text->text = $this->action->get_configuration('prompttext');
+        //$text->text = $this->action->get_configuration('prompttext');
+        $text->text = $this->get_system_instruction();
         
         $userobj = new \stdClass();
         $userobj->role = 'user';
         $userobj->content = [$image, $text];
 
         $messages = [];
-        // If there is a system string available, use it.
-        $systeminstruction = $this->get_system_instruction();
-        if (!empty($systeminstruction)) {
-            $systemobj = new \stdClass();
-            $systemobj->role = 'system';
-            $systemobj->content = $systeminstruction;
-            $messages = [$systemobj, $userobj];
-        } else {
-            $messages = [$userobj];
-        }
+        // // If there is a system string available, use it.
+        // $systeminstruction = $this->get_system_instruction();
+        // if (!empty($systeminstruction)) {
+        //     $systemobj = new \stdClass();
+        //     $systemobj->role = 'system';
+        //     $systemobj->content = $systeminstruction;
+        //     $messages = [$systemobj, $userobj];
+        // } else {
+        $messages = [$userobj];
+        // }
 
         $requestobj = new \stdClass();
         $requestobj->model = $this->get_model();

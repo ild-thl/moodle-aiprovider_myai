@@ -205,8 +205,8 @@ class provider extends \core_ai\provider {
                 "aiprovider_myai/action_{$actionname}_systeminstruction",
                 new \lang_string("action:{$actionname}:systeminstruction", 'aiprovider_myai'),
                 new \lang_string("action:{$actionname}:systeminstruction_desc", 'aiprovider_myai'),
-                $action::get_system_instruction(),
-                PARAM_TEXT
+                new \lang_string("action:{$actionname}:systeminstruction_default", 'aiprovider_myai'),
+                PARAM_RAW
             );
         }
         else if ($actionname === 'generate_image') {

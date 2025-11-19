@@ -23,80 +23,50 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
- * Class process_extract_pdf
+ * Class process_generate_video
  *
  * @package    aiprovider_myai
  * @copyright  2025 Jan Rieger <jan.rieger@th-luebeck.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class process_extract_pdf extends abstract_processor {
+class process_generate_video extends abstract_processor {
     #[\Override]
     protected function get_endpoint(): UriInterface {
-        return new Uri(get_config('aiprovider_myai', 'action_extract_pdf_endpoint'));
+        return new Uri(get_config('aiprovider_myai', 'action_generate_video_endpoint'));
     }
 
     #[\Override]
     protected function get_model(): string {
-        return get_config('aiprovider_myai', 'action_extract_pdf_model');
+        return get_config('aiprovider_myai', 'action_generate_video_model');
     }
 
     #[\Override]
     protected function get_system_instruction(): string {
-        return get_config('aiprovider_myai', 'action_extract_pdf_systeminstruction');
+        return get_config('aiprovider_myai', 'action_generate_video_systeminstruction');
     }
 
     #[\Override]
     protected function create_request_object(string $userid): RequestInterface {
-        // Python example:
-        // response = client.chat.completions.create(
-        //     model=model,
-        //     messages=[
-        //         {
-        //             "role": "user",
-        //             "content": [
-        //                 {
-        //                     "type": "image_url",
-        //                     "image_url": {"url": f"data:image/png;base64,{img_base64}"},
-        //                 },
-        //                 {
-        //                     "type": "text",
-        //                     "text": "Extract the text from the above document as if you were reading it naturally. Return the tables in html format. Return the equations in LaTeX representation. If there is an image in the document and image caption is not present, add a small description of the image inside the <img></img> tag; otherwise, add the image caption inside <img></img>. Watermarks should be wrapped in brackets. Ex: <watermark>OFFICIAL COPY</watermark>. Page numbers should be wrapped in brackets. Ex: <page_number>14</page_number> or <page_number>9/22</page_number>. Prefer using ☐ and ☑ for check boxes.",
-        //                 },
-        //             ],
-        //         }
-        //     ],
-        //     temperature=0.0,
-        //     max_tokens=120000
-        // )
-        // return response.choices[0].message.content
-
-        $image_url = new \stdClass();
-        $image_url->url = $this->action->get_configuration('imagebase64');
         
-        $image = new \stdClass();
-        $image->type = 'image_url';
-        $image->image_url = $image_url;
+        // $image_url = new \stdClass();
+        // $image_url->url = $this->action->get_configuration('imagebase64');
+        
+        // $image = new \stdClass();
+        // $image->type = 'image_url';
+        // $image->image_url = $image_url;
 
         $text = new \stdClass();
         $text->type = 'text';
-        //$text->text = $this->action->get_configuration('prompttext');
-        $text->text = $this->get_system_instruction();
+        $text->text = $this->action->get_configuration('prompttext');
         
         $userobj = new \stdClass();
         $userobj->role = 'user';
-        $userobj->content = [$image, $text];
+        //$userobj->content = [$image, $text];
+        $userobj->content = [$text];
 
         $messages = [];
-        // // If there is a system string available, use it.
-        // $systeminstruction = $this->get_system_instruction();
-        // if (!empty($systeminstruction)) {
-        //     $systemobj = new \stdClass();
-        //     $systemobj->role = 'system';
-        //     $systemobj->content = $systeminstruction;
-        //     $messages = [$systemobj, $userobj];
-        // } else {
+        
         $messages = [$userobj];
-        // }
 
         $requestobj = new \stdClass();
         $requestobj->model = $this->get_model();

@@ -4,10 +4,10 @@ namespace aiprovider_myai\aiactions;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Action: extract_pdf
+ * Action: generate_video
  *
  */
-class extract_pdf extends \core_ai\aiactions\base {
+class generate_video extends \core_ai\aiactions\base {
     /**
      * Create a new instance of the generate_text action.
      *
@@ -20,7 +20,7 @@ class extract_pdf extends \core_ai\aiactions\base {
      */
     public function __construct(
         protected int $userid,
-        protected string $imagebase64,
+        protected string $textcontent,
         protected string $prompttext,
         int $contextid,
     ) {
@@ -35,23 +35,21 @@ class extract_pdf extends \core_ai\aiactions\base {
      * @return string
      */
     public static function get_name(): string {
-        //return get_string('action_extract_pdf', 'aiprovider_myai');
-        return 'myai_extract_pdf';
+        return 'myai_generate_video';
     }
 
     /**
      * Beschreibung für Admin-Oberflächen.
      */
     public static function get_description(): string {
-        //return new \lang_string('action:extract_pdf:description', 'aiprovider_myai');
-        return get_string('description', 'aiprovider_myai');
+        return get_string('generate_video_description', 'aiprovider_myai');
     }
 
     /**
      * Standard-System-Instruktion (wird z.B. als Default in den Provider-Settings verwendet).
      */
     public static function get_system_instruction(): string {
-        return ''; // optional: Standard-Instruktion zurückgeben
+        return get_string('generate_video_systeminstruction', 'aiprovider_myai');
     }
 
     /**
@@ -62,28 +60,12 @@ class extract_pdf extends \core_ai\aiactions\base {
      * @return array
      */
     public function store(\core_ai\aiactions\responses\response_base $response): int {
-        // Todo: add install.xml DB table for storing extract_pdf actions
-        // global $DB;
-
-        // $responsearr = $response->get_response_data();
-
-        // $record = new \stdClass();
-        // $record->prompt = $this->prompttext;
-        // $record->responseid = $responsearr['id']; // Can be null.
-        // $record->fingerprint = $responsearr['fingerprint']; // Can be null.
-        // $record->generatedcontent = $responsearr['generatedcontent']; // Can be null.
-        // $record->finishreason = $responsearr['finishreason']; // Can be null.
-        // $record->prompttokens = $responsearr['prompttokens']; // Can be null.
-        // $record->completiontoken = $responsearr['completiontokens']; // Can be null.
-
-        // return $DB->insert_record($this->get_tablename(), $record);
-
-        // generate unique int id
+                // generate unique int id
         $uniqueid = random_int(1, 9999999999); // Todo: Replace with actual storage logic
         return $uniqueid;
     }
 
     public static function get_response_classname(): string {
-        return \aiprovider_myai\aiactions\responses\response_extract_pdf::class;
+        return \aiprovider_myai\aiactions\responses\response_generate_video::class;
     }
 }

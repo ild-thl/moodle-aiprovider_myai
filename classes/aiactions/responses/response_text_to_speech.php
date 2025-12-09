@@ -19,13 +19,13 @@ namespace aiprovider_myai\aiactions\responses;
 use core_ai\aiactions\responses\response_base;
 
 /**
- * Class response_generate_video
+ * Class response_text_to_speech
  *
  * @package    aiprovider_myai
  * @copyright  2025 Jan Rieger <jan.rieger@th-luebeck.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class response_generate_video extends response_base {
+class response_text_to_speech extends response_base {
     /** @var string|null A unique identifier for the chat completion, returned by the AI. */
     private ?string $id = null;
 
@@ -58,7 +58,7 @@ class response_generate_video extends response_base {
     ) {
         parent::__construct(
             success: $success,
-            actionname: 'generate_video',
+            actionname: 'text_to_speech',
             errorcode: $errorcode,
             errormessage: $errormessage,
         );

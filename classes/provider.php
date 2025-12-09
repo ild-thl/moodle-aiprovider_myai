@@ -73,7 +73,7 @@ class provider extends \core_ai\provider {
             \core_ai\aiactions\generate_image::class,
             \core_ai\aiactions\summarise_text::class,
             \aiprovider_myai\aiactions\extract_pdf::class,
-            \aiprovider_myai\aiactions\generate_video::class,
+            \aiprovider_myai\aiactions\text_to_speech::class,
         ];
     }
 
@@ -210,13 +210,13 @@ class provider extends \core_ai\provider {
                 PARAM_RAW
             );
         }
-        else if ($actionname === 'generate_video') {
+        else if ($actionname === 'text_to_speech') {
             // Add the model setting.
             $settings[] = new \admin_setting_configtext(
                 "aiprovider_myai/action_{$actionname}_model",
                 new \lang_string("action:{$actionname}:model", 'aiprovider_myai'),
                 new \lang_string("action:{$actionname}:model_desc", 'aiprovider_myai'),
-                'video-oss-16b',
+                'tts-1',
                 PARAM_TEXT,
             );
             // Add API endpoint.
@@ -224,17 +224,17 @@ class provider extends \core_ai\provider {
                 "aiprovider_myai/action_{$actionname}_endpoint",
                 new \lang_string("action:{$actionname}:endpoint", 'aiprovider_myai'),
                 '',
-                'https://models.mylab.th-luebeck.dev/v1/chat/completions',
+                'https://models.mylab.th-luebeck.dev/v1/audio/speech',
                 PARAM_URL,
             );
-            // Add system instruction settings.
-            $settings[] = new \admin_setting_configtextarea(
-                "aiprovider_myai/action_{$actionname}_systeminstruction",
-                new \lang_string("action:{$actionname}:systeminstruction", 'aiprovider_myai'),
-                new \lang_string("action:{$actionname}:systeminstruction_desc", 'aiprovider_myai'),
-                $action::get_system_instruction(),
-                PARAM_RAW
-            );
+            // // Add system instruction settings.
+            // $settings[] = new \admin_setting_configtextarea(
+            //     "aiprovider_myai/action_{$actionname}_systeminstruction",
+            //     new \lang_string("action:{$actionname}:systeminstruction", 'aiprovider_myai'),
+            //     new \lang_string("action:{$actionname}:systeminstruction_desc", 'aiprovider_myai'),
+            //     $action::get_system_instruction(),
+            //     PARAM_RAW
+            // );
         }
         else if ($actionname === 'generate_image') {
             // Add the model setting.

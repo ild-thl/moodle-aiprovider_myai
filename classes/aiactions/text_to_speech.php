@@ -4,10 +4,10 @@ namespace aiprovider_myai\aiactions;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Action: generate_video
+ * Action: text_to_speech
  *
  */
-class generate_video extends \core_ai\aiactions\base {
+class text_to_speech extends \core_ai\aiactions\base {
     /**
      * Create a new instance of the generate_text action.
      *
@@ -20,8 +20,7 @@ class generate_video extends \core_ai\aiactions\base {
      */
     public function __construct(
         protected int $userid,
-        protected string $textcontent,
-        protected string $prompttext,
+        protected string $texttotransform,
         int $contextid,
     ) {
         parent::__construct($contextid);
@@ -35,21 +34,21 @@ class generate_video extends \core_ai\aiactions\base {
      * @return string
      */
     public static function get_name(): string {
-        return 'myai_generate_video';
+        return 'myai_text_to_speech';
     }
 
     /**
      * Beschreibung für Admin-Oberflächen.
      */
     public static function get_description(): string {
-        return get_string('generate_video_description', 'aiprovider_myai');
+        return get_string('text_to_speech_description', 'aiprovider_myai');
     }
 
     /**
      * Standard-System-Instruktion (wird z.B. als Default in den Provider-Settings verwendet).
      */
     public static function get_system_instruction(): string {
-        return get_string('generate_video_systeminstruction', 'aiprovider_myai');
+        return get_string('text_to_speech_systeminstruction', 'aiprovider_myai');
     }
 
     /**
@@ -66,6 +65,6 @@ class generate_video extends \core_ai\aiactions\base {
     }
 
     public static function get_response_classname(): string {
-        return \aiprovider_myai\aiactions\responses\response_generate_video::class;
+        return \aiprovider_myai\aiactions\responses\response_text_to_speech::class;
     }
 }

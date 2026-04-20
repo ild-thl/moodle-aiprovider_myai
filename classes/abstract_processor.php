@@ -126,8 +126,18 @@ abstract class abstract_processor extends process_base {
         if ($status >= 500 && $status < 600) {
             $responsearr['errormessage'] = $response->getReasonPhrase();
         } else {
-            $bodyobj = json_decode($response->getBody()->getContents());
-            $responsearr['errormessage'] = $bodyobj->error->message;
+            $bodystring = $response->getBody()->getContents();
+            $bodyobj = json_decode($bodystring);
+
+            if (isset($bodyobj->error->message) && is_string($bodyobj->error->message)) {
+                $responsearr['errormessage'] = $bodyobj->error->message;
+            } else if ($bodystring !== '') {
+                $responsearr['errormessage'] = $bodystring;
+            } else if ($response->getReasonPhrase() !== '') {
+                $responsearr['errormessage'] = $response->getReasonPhrase();
+            } else {
+                $responsearr['errormessage'] = 'Unknown error from AI API.';
+            }
         }
 
         return $responsearr;

@@ -216,7 +216,7 @@ class provider extends \core_ai\provider {
                 "aiprovider_myai/action_{$actionname}_model",
                 new \lang_string("action:{$actionname}:model", 'aiprovider_myai'),
                 new \lang_string("action:{$actionname}:model_desc", 'aiprovider_myai'),
-                'tts-1',
+                'tts-1-hd',
                 PARAM_TEXT,
             );
             // Add API endpoint.

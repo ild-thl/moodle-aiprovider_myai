@@ -227,14 +227,30 @@ class provider extends \core_ai\provider {
                 'https://models.mylab.th-luebeck.dev/v1/audio/speech',
                 PARAM_URL,
             );
-            // // Add system instruction settings.
-            // $settings[] = new \admin_setting_configtextarea(
-            //     "aiprovider_myai/action_{$actionname}_systeminstruction",
-            //     new \lang_string("action:{$actionname}:systeminstruction", 'aiprovider_myai'),
-            //     new \lang_string("action:{$actionname}:systeminstruction_desc", 'aiprovider_myai'),
-            //     $action::get_system_instruction(),
-            //     PARAM_RAW
-            // );
+            // Add voice setting.
+            $settings[] = new \admin_setting_configtext(
+                "aiprovider_myai/action_{$actionname}_voice",
+                new \lang_string("action:{$actionname}:voice", 'aiprovider_myai'),
+                new \lang_string("action:{$actionname}:voice_desc", 'aiprovider_myai'),
+                'alloy',
+                PARAM_TEXT,
+            );
+            // Add output format setting.
+            $settings[] = new \admin_setting_configtext(
+                "aiprovider_myai/action_{$actionname}_format",
+                new \lang_string("action:{$actionname}:format", 'aiprovider_myai'),
+                new \lang_string("action:{$actionname}:format_desc", 'aiprovider_myai'),
+                'mp3',
+                PARAM_TEXT,
+            );
+            // Add speech speed setting.
+            $settings[] = new \admin_setting_configtext(
+                "aiprovider_myai/action_{$actionname}_speed",
+                new \lang_string("action:{$actionname}:speed", 'aiprovider_myai'),
+                new \lang_string("action:{$actionname}:speed_desc", 'aiprovider_myai'),
+                '1.0',
+                PARAM_TEXT,
+            );
         }
         else if ($actionname === 'generate_image') {
             // Add the model setting.

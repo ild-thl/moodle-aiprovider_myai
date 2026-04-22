@@ -30,6 +30,40 @@ use Psr\Http\Message\UriInterface;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class process_text_to_speech extends abstract_processor {
+    /**
+     * Get configured voice for TTS.
+     *
+     * @return string
+     */
+    protected function get_voice(): string {
+        return get_config('aiprovider_myai', 'action_text_to_speech_voice') ?: 'alloy';
+    }
+
+    /**
+     * Get configured output format for TTS.
+     *
+     * @return string
+     */
+    protected function get_format(): string {
+        return get_config('aiprovider_myai', 'action_text_to_speech_format') ?: 'mp3';
+    }
+
+    /**
+     * Get configured speech speed for TTS.
+     *
+     * @return float
+     */
+    protected function get_speed(): float {
+        $speed = get_config('aiprovider_myai', 'action_text_to_speech_speed');
+        if (!is_string($speed) && !is_numeric($speed)) {
+            return 1.0;
+        }
+
+        // Accept both "1.0" and locale-style "1,0" inputs.
+        $normalisedspeed = str_replace(',', '.', (string)$speed);
+        return is_numeric($normalisedspeed) ? (float)$normalisedspeed : 1.0;
+    }
+
     #[\Override]
     protected function get_endpoint(): UriInterface {
         return new Uri(get_config('aiprovider_myai', 'action_text_to_speech_endpoint'));
@@ -46,34 +80,13 @@ class process_text_to_speech extends abstract_processor {
     }
 
     #[\Override]
-    protected function create_request_object(string $userid): RequestInterface {
-        //https://wiki.mylab.th-luebeck.dev/de/myLab_services/ai_platform
-        // $content = new \stdClass();
-        // $content->model = $this->get_model();
-        // $content->input = $this->action->get_configuration('texttotransform');
-        // $content->voice = 'alloy';
-        // $content->format = 'mp3';
-        // $content->speed = 1.0;
-        
-        // $userobj = new \stdClass();
-        // $userobj->role = 'user';
-        // $userobj->content = [$content];
-        
-        // $requestobj = new \stdClass();
-        // $requestobj->model = $this->get_model();
-        // $requestobj->user = $userid;
-
-        // $requestobj->messages = [$userobj];
-
-        
-        
+    protected function create_request_object(string $_userid): RequestInterface {
         $requestobj = new \stdClass();
         $requestobj->model = $this->get_model();
-        //$requestobj->user = $userid;
         $requestobj->input = $this->action->get_configuration('texttotransform');
-        $requestobj->voice = 'alloy';
-        $requestobj->format = 'mp3';
-        $requestobj->speed = 1.0;
+        $requestobj->voice = $this->get_voice();
+        $requestobj->format = $this->get_format();
+        $requestobj->speed = $this->get_speed();
 
         return new Request(
             method: 'POST',
@@ -94,18 +107,10 @@ class process_text_to_speech extends abstract_processor {
     protected function handle_api_success(ResponseInterface $response): array {
         $responsebody = $response->getBody();
         $bodystring = $responsebody->getContents();
-        //mtrace('API success response: '.$bodystring);
-        $bodyobj = json_decode($responsebody->getContents());
 
         return [
             'success' => true,
-            //'id' => $bodyobj->id,
-            //'fingerprint' => $bodyobj->system_fingerprint,
-            //'generatedcontent' => $bodyobj->choices[0]->message->content,
             'generatedcontent' => $bodystring,
-            //'finishreason' => $bodyobj->choices[0]->finish_reason,
-            //'prompttokens' => $bodyobj->usage->prompt_tokens,
-            //'completiontokens' => $bodyobj->usage->completion_tokens,
         ];
     }
 
@@ -126,14 +131,12 @@ class process_text_to_speech extends abstract_processor {
             $responsearr['errormessage'] = $response->getReasonPhrase();
         } else {
             $bodystring = $response->getBody()->getContents();
-            mtrace('API error response: '.$bodystring);
             $bodyobj = json_decode($bodystring);
             if (isset($bodyobj->error->message)) {
                 $responsearr['errormessage'] = $bodyobj->error->message;
-            } else if($bodystring != '') {
+            } else if ($bodystring !== '') {
                 $responsearr['errormessage'] = $bodystring;
-            }
-            else {
+            } else {
                 $responsearr['errormessage'] = 'Unknown error from AI API.';
             }
         }

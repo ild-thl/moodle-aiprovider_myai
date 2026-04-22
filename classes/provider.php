@@ -74,6 +74,7 @@ class provider extends \core_ai\provider {
             \core_ai\aiactions\summarise_text::class,
             \aiprovider_myai\aiactions\extract_pdf::class,
             \aiprovider_myai\aiactions\text_to_speech::class,
+            \aiprovider_myai\aiactions\generate_question::class,
         ];
     }
 
@@ -158,7 +159,7 @@ class provider extends \core_ai\provider {
     ): array {
         $actionname = substr($action, (strrpos($action, '\\') + 1));
         $settings = [];
-        if ($actionname === 'generate_text' || $actionname === 'summarise_text') {
+        if ($actionname === 'generate_text' || $actionname === 'summarise_text' || $actionname === 'generate_question') {
             // Add the model setting.
             $settings[] = new \admin_setting_configtext(
                 "aiprovider_myai/action_{$actionname}_model",

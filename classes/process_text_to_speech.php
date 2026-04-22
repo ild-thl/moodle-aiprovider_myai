@@ -80,7 +80,7 @@ class process_text_to_speech extends abstract_processor {
     }
 
     #[\Override]
-    protected function create_request_object(string $_userid): RequestInterface {
+    protected function create_request_object(string $userid): RequestInterface {
         $requestobj = new \stdClass();
         $requestobj->model = $this->get_model();
         $requestobj->input = $this->action->get_configuration('texttotransform');

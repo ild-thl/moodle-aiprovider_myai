@@ -11,6 +11,7 @@ The plugin integrates an external AI service as a Moodle AI provider and current
 - Image generation
 - PDF content extraction
 - Text-to-speech
+- Question generation (for question bank workflows)
 
 ## Requirements
 
@@ -56,6 +57,7 @@ The plugin registers the following actions:
 - `core_ai\aiactions\generate_image`
 - `aiprovider_myai\aiactions\extract_pdf`
 - `aiprovider_myai\aiactions\text_to_speech`
+- `aiprovider_myai\aiactions\generate_question`
 
 ### Action-Specific Configuration
 
@@ -73,12 +75,21 @@ Configurable settings:
 
 - Model: `aiprovider_myai/action_text_to_speech_model`
 - API endpoint: `aiprovider_myai/action_text_to_speech_endpoint`
+- Voice: `aiprovider_myai/action_text_to_speech_voice`
+- Audio format: `aiprovider_myai/action_text_to_speech_format`
+- Speed: `aiprovider_myai/action_text_to_speech_speed`
 
-Currently not configurable via admin settings (hardcoded in the request):
+#### `myai_generate_question`
 
-- Voice: `alloy`
-- Audio format: `mp3`
-- Speed: `1.0`
+Configurable settings:
+
+- Model: `aiprovider_myai/action_generate_question_model`
+- API endpoint: `aiprovider_myai/action_generate_question_endpoint`
+- System instruction: `aiprovider_myai/action_generate_question_systeminstruction`
+
+Typical use case:
+
+- Consumed by plugins like `qbank_kia_generator` to generate Moodle-compatible question sets from extracted and curated learning content.
 
 ## Privacy
 
@@ -98,7 +109,7 @@ Current plugin metadata:
 
 - Component: `aiprovider_myai`
 - Release: `1.0`
-- Version: `2026042100`
+- Version: `2026042200`
 - Minimum Moodle version (`requires`): `2024100700`
 - Supported Moodle branches (`supported`): `4.5` to `5.1`
 - Maturity: `MATURITY_STABLE`

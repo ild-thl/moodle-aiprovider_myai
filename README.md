@@ -91,37 +91,6 @@ Typical use case:
 
 - Consumed by plugins like `qbank_kia_generator` to generate Moodle-compatible question sets from extracted and curated learning content.
 
-## Privacy
-
-The plugin provides a privacy provider implementation (`classes/privacy/provider.php`) and documents data transfer to an external service.
-
-According to the plugin metadata, no additional personal data is stored in Moodle by this plugin. However, prompts and related metadata may be transferred to the configured external AI service.
-
-Operational recommendations:
-
-- Review privacy information and contractual requirements for the AI service in use.
-- Send only the minimum data required for the use case.
-- Inform end users transparently about external data processing.
-
-## Versioning and Compatibility
-
-Current plugin metadata:
-
-- Component: `aiprovider_myai`
-- Release: `1.0`
-- Version: `2026042200`
-- Minimum Moodle version (`requires`): `2024100700`
-- Supported Moodle branches (`supported`): `4.5` to `5.1`
-- Maturity: `MATURITY_STABLE`
-
-## Development
-
-Recommended before release:
-
-- Validate PHP code against Moodle coding standards
-- Test the plugin in a Moodle 4.5 instance
-- Validate AI actions with valid credentials and production endpoint configuration
-
 ## License
 
 GNU GPL v3 or later.

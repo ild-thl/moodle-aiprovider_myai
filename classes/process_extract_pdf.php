@@ -85,19 +85,12 @@ class process_extract_pdf extends abstract_processor {
         $userobj = new \stdClass();
         $userobj->role = 'user';
         $userobj->content = [$image, $text];
+        $systemobj = new \stdClass();
+        $systemobj->role = 'system';
+        $systemobj->content = 'You are a helpful assistant that extracts text from a PDF file.';
 
-        $messages = [];
-        // // If there is a system string available, use it.
-        // $systeminstruction = $this->get_system_instruction();
-        // if (!empty($systeminstruction)) {
-        //     $systemobj = new \stdClass();
-        //     $systemobj->role = 'system';
-        //     $systemobj->content = $systeminstruction;
-        //     $messages = [$systemobj, $userobj];
-        // } else {
-        $messages = [$userobj];
-        // }
-
+        $messages = [$systemobj, $userobj];
+        
         $requestobj = new \stdClass();
         $requestobj->model = $this->get_model();
         $requestobj->user = $userid;

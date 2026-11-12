@@ -96,7 +96,8 @@ class process_extract_pdf extends abstract_processor {
         $requestobj->user = $userid;
         $requestobj->messages = $messages;
         $requestobj->temperature = 0.0;
-        $requestobj->max_tokens = 120000;
+        // One rendered page per request. The gateway rejects max_tokens above the model context (32768).
+        $requestobj->max_tokens = 8192;
 
         return new Request(
             method: 'POST',
